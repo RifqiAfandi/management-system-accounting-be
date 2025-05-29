@@ -1,0 +1,32 @@
+{
+  "name": "management-system-accounting-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RifqiAfandi/management-system-accounting-be.git"
+  },
+  "author": "rifqi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RifqiAfandi/management-system-accounting-be/issues"
+  },
+  "homepage": "https://github.com/RifqiAfandi/management-system-accounting-be#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
+    "imagekit": "^6.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.0",
+    "pg": "^8.16.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.3"
+  }
+}
