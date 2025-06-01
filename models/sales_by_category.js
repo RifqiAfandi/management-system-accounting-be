@@ -10,12 +10,22 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Sales_by_category.belongsTo(models.Sales_category, {
+        foreignKey: 'salesCategoryId',
+        as: 'category'
+      });
     }
   }
   Sales_by_category.init({
     inputDate: DataTypes.DATE,
-    salesCategoryId: DataTypes.INTEGER,
+    salesCategoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Sales_categories',
+        key: 'id'
+      }
+    },
     qtyTerjual: DataTypes.DECIMAL,
     revenue: DataTypes.DECIMAL,
     hpp: DataTypes.DECIMAL,
