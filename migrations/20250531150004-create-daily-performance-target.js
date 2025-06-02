@@ -1,37 +1,45 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Daily_performance_targets', {
+    await queryInterface.createTable("Daily_performance_targets", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+      },
+      inputDate: {
+        type: Sequelize.DATE,
+        allowNull: false,
       },
       revenue: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(15, 0),
+        allowNull: false,
       },
       customerTraffic: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(10, 0),
+        allowNull: false,
       },
       avgTransaction: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(15, 0),
+        allowNull: false,
       },
       profitMargin: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(5, 2),
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Daily_performance_targets');
-  }
+    await queryInterface.dropTable("Daily_performance_targets");
+  },
 };
