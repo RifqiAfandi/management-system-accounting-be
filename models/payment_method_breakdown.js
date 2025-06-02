@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Payment_method_breakdown.init(
     {
-      inputDate: DataTypes.DATE,
       paymentMethodId: {
         type: DataTypes.INTEGER,
         allowNull: false,

@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Daily_operational_cost.init(
     {
-      inputDate: DataTypes.DATE,
       operationalCategoryId: {
         type: DataTypes.INTEGER,
         allowNull: false,
