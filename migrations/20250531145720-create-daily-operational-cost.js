@@ -9,10 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      inputDate: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       operationalCostTypeId: {
         type: Sequelize.INTEGER,
         allowNull: false,

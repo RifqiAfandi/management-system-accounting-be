@@ -9,10 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      inputDate: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       revenue: {
         type: Sequelize.DECIMAL(15, 0),
         allowNull: false,
