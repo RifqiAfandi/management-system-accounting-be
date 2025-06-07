@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Daily_operational_cost extends Model {
     /**
@@ -10,16 +8,29 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Daily_operational_cost.belongsTo(models.Operational_category, {
+        foreignKey: "operationalCategoryId",
+        as: "category",
+      });
     }
   }
-  Daily_operational_cost.init({
-    operationalCostTypeId: DataTypes.INTEGER,
-    amount: DataTypes.DECIMAL,
-    description: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Daily_operational_cost',
-  });
+  Daily_operational_cost.init(
+    {
+      operationalCategoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Operational_categories",
+          key: "id",
+        },
+      },
+      amount: DataTypes.DECIMAL,
+      description: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "Daily_operational_cost",
+    }
+  );
   return Daily_operational_cost;
 };

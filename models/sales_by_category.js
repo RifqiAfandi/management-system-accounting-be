@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Sales_by_category extends Model {
     /**
@@ -11,28 +9,30 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Sales_by_category.belongsTo(models.Sales_category, {
-        foreignKey: 'salesCategoryId',
-        as: 'category'
+        foreignKey: "salesCategoryId",
+        as: "category",
       });
     }
   }
-  Sales_by_category.init({
-    inputDate: DataTypes.DATE,
-    salesCategoryId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Sales_categories',
-        key: 'id'
-      }
+  Sales_by_category.init(
+    {
+      salesCategoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Sales_categories",
+          key: "id",
+        },
+      },
+      qtyTerjual: DataTypes.DECIMAL,
+      revenue: DataTypes.DECIMAL,
+      hpp: DataTypes.DECIMAL,
+      margin: DataTypes.DECIMAL,
     },
-    qtyTerjual: DataTypes.DECIMAL,
-    revenue: DataTypes.DECIMAL,
-    hpp: DataTypes.DECIMAL,
-    margin: DataTypes.DECIMAL
-  }, {
-    sequelize,
-    modelName: 'Sales_by_category',
-  });
+    {
+      sequelize,
+      modelName: "Sales_by_category",
+    }
+  );
   return Sales_by_category;
 };
