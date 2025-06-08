@@ -8,6 +8,7 @@ const dailyPerformanceTargetRoutes = require('./dailyPerformanceTargetRoute');
 const operationalCostTypeRoutes = require('./operationalCostTypeRoute');
 const paymentMethodBreakdownRoutes = require('./paymentMethodBreakdownRoute');
 const paymentTypeRoutes = require('./paymentTypeRoute');
+const salesByCategoryRoutes = require('./salesByCategoryRoute');
 
 // Use auth routes
 router.use('/auth', authRoutes);
@@ -16,5 +17,6 @@ router.use('/daily-performance-target', dailyPerformanceTargetRoutes);
 router.use('/operational-cost-type', operationalCostTypeRoutes);
 router.use('/payment-method-breakdown', paymentMethodBreakdownRoutes);
 router.use('/payment-type', paymentTypeRoutes);
+router.use('/sales-by-category', salesByCategoryRoutes);
 
 module.exports = router;
