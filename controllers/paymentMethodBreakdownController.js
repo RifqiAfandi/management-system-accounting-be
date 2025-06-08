@@ -1,4 +1,5 @@
 const { Payment_method_breakdown } = require("../models");
+const { Payment_type } = require("../models");
 
 async function createPaymentMethodBreakdown(req, res) {
   try {

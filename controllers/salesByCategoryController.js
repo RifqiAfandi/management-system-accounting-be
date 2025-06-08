@@ -1,4 +1,5 @@
 const { Sales_by_category } = require("../models");
+const { Sales_category } = require("../models");
 
 async function createSalesByCategory(req, res) {
   try {
