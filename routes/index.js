@@ -10,6 +10,7 @@ const paymentMethodBreakdownRoutes = require('./paymentMethodBreakdownRoute');
 const paymentTypeRoutes = require('./paymentTypeRoute');
 const salesByCategoryRoutes = require('./salesByCategoryRoute');
 const salesCategoryRoutes = require('./salesCategoryRoute');
+const trafficAndCustomerRoutes = require('./trafficAndCustomerRoute');
 
 // Use auth routes
 router.use('/auth', authRoutes);
@@ -20,5 +21,6 @@ router.use('/payment-method-breakdown', paymentMethodBreakdownRoutes);
 router.use('/payment-type', paymentTypeRoutes);
 router.use('/sales-by-category', salesByCategoryRoutes);
 router.use('/sales-category', salesCategoryRoutes);
+router.use('/traffic-and-customer', trafficAndCustomerRoutes);
 
 module.exports = router;

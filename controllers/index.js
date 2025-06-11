@@ -5,6 +5,7 @@ const paymentMethodBreakdownController = require("./paymentMethodBreakdownContro
 const salesCategoryController = require("./salesCategoryController");
 const operationalCategoryController = require("./operationalCategoryController");
 const paymentMethodController = require("./paymentMethodController");
+const trafficAndCustomerController = require("./trafficAndCustomerController");
 
 module.exports = {
   authController,
@@ -14,4 +15,5 @@ module.exports = {
   salesCategoryController,
   operationalCategoryController,
   paymentMethodController,
+  trafficAndCustomerController,
 };
