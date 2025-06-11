@@ -18,10 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     customerCount: DataTypes.DECIMAL,
     transaction: DataTypes.DECIMAL,
     conversionRate: DataTypes.DECIMAL,
-    description: DataTypes.TEXT
-  }, {
+    description: DataTypes.TEXT  }, {
     sequelize,
     modelName: 'Traffic_and_customer_data',
+    tableName: 'Traffic_and_customer_data',
   });
   return Traffic_and_customer_data;
 };

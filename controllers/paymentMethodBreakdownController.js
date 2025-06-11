@@ -218,19 +218,17 @@ async function getAllPaymentMethodBreakdowns(req, res) {
     // Filter by payment type
     if (paymentTypeId) {
       whereClause.paymentTypeId = paymentTypeId;
-    }
-
-    // Filter by date range
+    }    // Filter by date range
     if (startDate && endDate) {
-      whereClause.inputDate = {
+      whereClause.createdAt = {
         [Op.between]: [new Date(startDate), new Date(endDate)],
       };
     } else if (startDate) {
-      whereClause.inputDate = {
+      whereClause.createdAt = {
         [Op.gte]: new Date(startDate),
       };
     } else if (endDate) {
-      whereClause.inputDate = {
+      whereClause.createdAt = {
         [Op.lte]: new Date(endDate),
       };
     }
@@ -242,10 +240,9 @@ async function getAllPaymentMethodBreakdowns(req, res) {
           model: Payment_type,
           as: "paymentType",
         },
-      ],
-      limit: parseInt(limit),
+      ],      limit: parseInt(limit),
       offset: parseInt(offset),
-      order: [["inputDate", "DESC"]],
+      order: [["createdAt", "DESC"]],
     });
 
     res.status(200).json({

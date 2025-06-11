@@ -200,18 +200,16 @@ async function getAllDailyOperationalCost(req, res) {
 
     if (operationalCostTypeId) {
       whereClause.operationalCostTypeId = operationalCostTypeId;
-    }
-
-    if (startDate && endDate) {
-      whereClause.inputDate = {
+    }    if (startDate && endDate) {
+      whereClause.createdAt = {
         [Op.between]: [new Date(startDate), new Date(endDate)],
       };
     } else if (startDate) {
-      whereClause.inputDate = {
+      whereClause.createdAt = {
         [Op.gte]: new Date(startDate),
       };
     } else if (endDate) {
-      whereClause.inputDate = {
+      whereClause.createdAt = {
         [Op.lte]: new Date(endDate),
       };
     }
@@ -223,10 +221,9 @@ async function getAllDailyOperationalCost(req, res) {
           model: Operational_cost_type,
           as: "operationalCostType",
         },
-      ],
-      limit: parseInt(limit),
+      ],      limit: parseInt(limit),
       offset: parseInt(offset),
-      order: [["inputDate", "DESC"]],
+      order: [["createdAt", "DESC"]],
     });
 
     res.status(200).json({

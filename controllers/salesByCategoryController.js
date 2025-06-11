@@ -212,10 +212,9 @@ async function getAllSalesByCategory(req, res) {
           model: Sales_category,
           as: "category",
         },
-      ],
-      limit: parseInt(limit),
+      ],      limit: parseInt(limit),
       offset: parseInt(offset),
-      order: [["ASC", "DESC"]],
+      order: [["createdAt", "DESC"]],
     });
 
     res.status(200).json({
