@@ -14,7 +14,6 @@ module.exports = {
         name: 'Admin User',
         username: 'admin',
         password: hashedPasswords[0],
-        role: 'admin',
         createdAt: new Date(),
         updatedAt: new Date()
       }
