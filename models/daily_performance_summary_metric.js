@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Daily_performance_summary_metric',
+    tableName: 'Daily_performance_summary_metrics',
   });
   return Daily_performance_summary_metric;
 };

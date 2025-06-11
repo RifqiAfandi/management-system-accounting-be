@@ -3,9 +3,9 @@ const {Operational_cost_type} = require("../models");
 
 async function createDailyOperationalCost(req, res) {
   try {
-    const { operationalCostId, amount, description } = req.body;
+    const { operationalCostTypeId, amount, description } = req.body;
 
-    const operationalCostType = await Operational_cost_type.findByPk(operationalCostId);
+    const operationalCostType = await Operational_cost_type.findByPk(operationalCostTypeId);
     if (!operationalCostType) {
       return res.status(400).json({
         status: "error",
@@ -16,7 +16,7 @@ async function createDailyOperationalCost(req, res) {
     }
 
     const newDailyOperationalCost = await Daily_operational_cost.create({
-      operationalCostId,
+      operationalCostTypeId,
       amount,
       description,
     });
@@ -62,7 +62,7 @@ async function createDailyOperationalCost(req, res) {
 async function updateDailyOperationalCost(req, res) {
   try {
     const { id } = req.params;
-    const { operationalCostId, amount, description } = req.body;
+    const { operationalCostTypeId, amount, description } = req.body;
 
     const dailyOperationalCost = await Daily_operational_cost.findByPk(id);
     if (!dailyOperationalCost) {
@@ -75,14 +75,14 @@ async function updateDailyOperationalCost(req, res) {
     }
 
     if (
-      operationalCostId &&
-      operationalCostId !== dailyOperationalCost.operationalCostId
+      operationalCostTypeId &&
+      operationalCostTypeId !== dailyOperationalCost.operationalCostTypeId
     ) {
-      const categoryExists = await Operational_cost_type.findByPk(operationalCostId);
+      const categoryExists = await Operational_cost_type.findByPk(operationalCostTypeId);
       if (!categoryExists) {
         return res.status(400).json({
           status: "error",
-          message: "Operational cost not found",
+          message: "Operational cost type not found",
           isSuccess: false,
           data: null,
         });
@@ -91,8 +91,8 @@ async function updateDailyOperationalCost(req, res) {
 
     const updateData = {};
 
-    if (operationalCostId !== undefined)
-      updateData.operationalCostId = operationalCostId;
+    if (operationalCostTypeId !== undefined)
+      updateData.operationalCostTypeId = operationalCostTypeId;
     if (amount !== undefined) updateData.amount = amount;
     if (description !== undefined) updateData.description = description;
 

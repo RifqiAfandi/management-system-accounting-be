@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
       revenue: DataTypes.DECIMAL,
       hpp: DataTypes.DECIMAL,
       margin: DataTypes.DECIMAL,
-    },
-    {
+    },    {
       sequelize,
       modelName: "Sales_by_category",
+      tableName: "Sales_by_categories",
     }
   );
   return Sales_by_category;

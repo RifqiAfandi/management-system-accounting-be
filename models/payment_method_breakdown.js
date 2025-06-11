@@ -6,30 +6,30 @@ module.exports = (sequelize, DataTypes) => {
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      Payment_method_breakdown.belongsTo(models.Payment_method, {
-        foreignKey: "paymentMethodId",
-        as: "method",
+     */    static associate(models) {
+      Payment_method_breakdown.belongsTo(models.Payment_type, {
+        foreignKey: "paymentTypeId",
+        as: "paymentType",
       });
     }
-  }
-  Payment_method_breakdown.init(
+  }  Payment_method_breakdown.init(
     {
-      paymentMethodId: {
+      paymentTypeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Payment_methods",
+          model: "Payment_types",
           key: "id",
         },
       },
-      amount: DataTypes.DECIMAL,
-      transactionCount: DataTypes.INTEGER,
-    },
-    {
+      jumlahTransaksi: DataTypes.DECIMAL,
+      persenDariTotal: DataTypes.DECIMAL,
+      revenue: DataTypes.DECIMAL,
+      fee: DataTypes.DECIMAL,
+    },{
       sequelize,
       modelName: "Payment_method_breakdown",
+      tableName: "Payment_method_breakdowns",
     }
   );
   return Payment_method_breakdown;

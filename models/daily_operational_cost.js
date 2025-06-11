@@ -6,30 +6,28 @@ module.exports = (sequelize, DataTypes) => {
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      Daily_operational_cost.belongsTo(models.Operational_category, {
-        foreignKey: "operationalCategoryId",
-        as: "category",
+     */    static associate(models) {
+      Daily_operational_cost.belongsTo(models.Operational_cost_type, {
+        foreignKey: "operationalCostTypeId",
+        as: "operationalCostType",
       });
     }
-  }
-  Daily_operational_cost.init(
+  }  Daily_operational_cost.init(
     {
-      operationalCategoryId: {
+      operationalCostTypeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Operational_categories",
+          model: "Operational_cost_types",
           key: "id",
         },
       },
       amount: DataTypes.DECIMAL,
       description: DataTypes.STRING,
-    },
-    {
+    },{
       sequelize,
       modelName: "Daily_operational_cost",
+      tableName: "Daily_operational_costs",
     }
   );
   return Daily_operational_cost;

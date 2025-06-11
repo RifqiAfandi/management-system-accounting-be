@@ -8,16 +8,19 @@ module.exports = (sequelize, DataTypes) => {
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+     */    static associate(models) {
+      // Define associations
+      Operational_cost_type.hasMany(models.Daily_operational_cost, {
+        foreignKey: 'operationalCostTypeId',
+        as: 'operationalCosts'
+      });
     }
   }
   Operational_cost_type.init({
-    operationalCostName: DataTypes.STRING
-  }, {
+    operationalCostName: DataTypes.STRING  }, {
     sequelize,
     modelName: 'Operational_cost_type',
+    tableName: 'Operational_cost_types',
   });
   return Operational_cost_type;
 };

@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Sales_category.init({
-    nameCategory: DataTypes.STRING
-  }, {
+    nameCategory: DataTypes.STRING  }, {
     sequelize,
     modelName: 'Sales_category',
+    tableName: 'Sales_categories',
   });
   return Sales_category;
 };
