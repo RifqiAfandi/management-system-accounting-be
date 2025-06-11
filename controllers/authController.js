@@ -45,25 +45,36 @@ async function createUser(req, res) {
 
 async function login(req, res) {
     try {
-        const { username, password } = req.body;
+        const { username, email, password } = req.body;
+        
+        // Allow login with either username or email
+        const loginField = email || username;
+        
+        if (!loginField || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email/username and password are required'
+            });
+        }
 
-        const user = await Users.findOne({ where: { username } });
+        const user = await Users.findOne({ 
+            where: { 
+                username: loginField 
+            } 
+        });
+        
         if (!user) {
             return res.status(401).json({
-                status: 'error',
-                message: 'Invalid username or password',
-                isSuccess: false,
-                data: null
+                success: false,
+                message: 'Invalid credentials'
             });
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
             return res.status(401).json({
-                status: 'error',
-                message: 'Invalid username or password',
-                isSuccess: false,
-                data: null
+                success: false,
+                message: 'Invalid credentials'
             });
         }
 
@@ -78,25 +89,20 @@ async function login(req, res) {
         );
 
         res.status(200).json({
-            status: 'success',
+            success: true,
             message: 'Login successful',
-            isSuccess: true,
-            data: {
-                token,
-                user: {
-                    id: user.id,
-                    name: user.name,
-                    username: user.username,
-                    role: user.role
-                }
+            token,
+            user: {
+                id: user.id,
+                name: user.name,
+                username: user.username,
+                role: user.role
             }
         });
     } catch (error) {
         res.status(500).json({
-            status: 'error',
-            message: error.message,
-            isSuccess: false,
-            data: null
+            success: false,
+            message: error.message
         });
     }
 }
