@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // Define associations
+      Daily_performance_summary_metric.hasMany(models.Daily_performance_summary, {
+        foreignKey: 'dailyPerformanceSummaryMetricId',
+        as: 'summaries'
+      });
     }
   }
   Daily_performance_summary_metric.init({

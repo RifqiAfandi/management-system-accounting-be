@@ -10,7 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // Define associations
+      Daily_performance_summary.belongsTo(models.Daily_performance_summary_metric, {
+        foreignKey: 'dailyPerformanceSummaryMetricId',
+        as: 'metric'
+      });
+      
+      Daily_performance_summary.belongsTo(models.Daily_performance_summary_target, {
+        foreignKey: 'dailyPerformanceSummaryTargetId',
+        as: 'target'
+      });
     }
   }
   Daily_performance_summary.init({

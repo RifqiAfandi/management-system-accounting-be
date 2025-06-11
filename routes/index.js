@@ -4,6 +4,7 @@ const router = express.Router();
 // Import auth routes
 const authRoutes = require('./authRoute');
 const dailyOperationalCostRoutes = require('./dailyOperationalCostRoute');
+const dailyPerformanceSummaryRoutes = require('./dailyPerformanceSummaryRoute');
 const dailyPerformanceSummaryMetricRoutes = require('./dailyPerformanceSummaryMetricRoute');
 const dailyPerformanceSummaryTargetRoutes = require('./dailyPerformanceSummaryTargetRoute');
 const operationalCostTypeRoutes = require('./operationalCostTypeRoute');
@@ -16,6 +17,7 @@ const trafficAndCustomerRoutes = require('./trafficAndCustomerRoute');
 // Use auth routes
 router.use('/auth', authRoutes);
 router.use('/daily-operational-cost', dailyOperationalCostRoutes);
+router.use('/daily-performance-summary', dailyPerformanceSummaryRoutes);
 router.use('/daily-performance-summary-metric', dailyPerformanceSummaryMetricRoutes);
 router.use('/daily-performance-summary-target', dailyPerformanceSummaryTargetRoutes);
 router.use('/operational-cost-type', operationalCostTypeRoutes);

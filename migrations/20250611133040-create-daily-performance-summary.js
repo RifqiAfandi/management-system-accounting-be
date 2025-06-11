@@ -10,10 +10,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       dailyPerformanceSummaryMetricId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Daily_performance_summary_metrics",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "RESTRICT",
       },
       dailyPerformanceSummaryTargetId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Daily_performance_summary_targets",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "RESTRICT",
       },
       actual: {
         type: Sequelize.DECIMAL
