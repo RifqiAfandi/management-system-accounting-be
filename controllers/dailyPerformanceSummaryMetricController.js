@@ -7,7 +7,7 @@ async function getAllDailyPerformanceSummaryMetrics(req, res) {
       return res.status(404).json({
         status: "error",
         message: "No daily performance summary metrics found",
-        isSuccess: false,
+        success: false,
         data: null,
       });
     }
@@ -15,14 +15,14 @@ async function getAllDailyPerformanceSummaryMetrics(req, res) {
     res.status(200).json({
       status: "success",
       message: "Daily performance summary metrics retrieved successfully",
-      isSuccess: true,
+      success: true,
       data: dailyPerformanceSummaryMetrics,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
       message: error.message,
-      isSuccess: false,
+      success: false,
       data: null,
     });
   }

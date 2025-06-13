@@ -1,4 +1,5 @@
 const { Daily_performance_summary, Daily_performance_summary_metric, Daily_performance_summary_target } = require("../models");
+const { Op } = require("sequelize");
 
 // Get all daily performance summaries
 async function getAllDailyPerformanceSummaries(req, res) {
@@ -16,13 +17,11 @@ async function getAllDailyPerformanceSummaries(req, res) {
           attributes: ['id', 'dailyTargetValue']
         }
       ]
-    });
-
-    if (dailyPerformanceSummaries.length === 0) {
+    });    if (dailyPerformanceSummaries.length === 0) {
       return res.status(404).json({
         status: "error",
         message: "No daily performance summaries found",
-        isSuccess: false,
+        success: false,
         data: null,
       });
     }
@@ -30,7 +29,7 @@ async function getAllDailyPerformanceSummaries(req, res) {
     res.status(200).json({
       status: "success",
       message: "Daily performance summaries retrieved successfully",
-      isSuccess: true,
+      success: true,
       data: dailyPerformanceSummaries,
     });
   } catch (error) {
@@ -62,11 +61,10 @@ async function getDailyPerformanceSummaryById(req, res) {
       ]
     });
 
-    if (!dailyPerformanceSummary) {
-      return res.status(404).json({
+    if (!dailyPerformanceSummary) {      return res.status(404).json({
         status: "error",
         message: "Daily performance summary not found",
-        isSuccess: false,
+        success: false,
         data: null,
       });
     }
@@ -74,14 +72,14 @@ async function getDailyPerformanceSummaryById(req, res) {
     res.status(200).json({
       status: "success",
       message: "Daily performance summary retrieved successfully",
-      isSuccess: true,
+      success: true,
       data: dailyPerformanceSummary,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
       message: error.message,
-      isSuccess: false,
+      success: false,
       data: null,
     });
   }
@@ -90,14 +88,12 @@ async function getDailyPerformanceSummaryById(req, res) {
 // Create new daily performance summary
 async function createDailyPerformanceSummary(req, res) {
   try {
-    const { dailyPerformanceSummaryMetricId, dailyPerformanceSummaryTargetId, actual, achivement, status } = req.body;
-
-    // Validate required fields
+    const { dailyPerformanceSummaryMetricId, dailyPerformanceSummaryTargetId, actual, achivement, status } = req.body;    // Validate required fields
     if (!dailyPerformanceSummaryMetricId || !dailyPerformanceSummaryTargetId || actual === undefined) {
       return res.status(400).json({
         status: "error",
         message: "dailyPerformanceSummaryMetricId, dailyPerformanceSummaryTargetId, and actual are required",
-        isSuccess: false,
+        success: false,
         data: null,
       });
     }
@@ -108,7 +104,7 @@ async function createDailyPerformanceSummary(req, res) {
       return res.status(400).json({
         status: "error",
         message: "Daily performance summary metric not found",
-        isSuccess: false,
+        success: false,
         data: null,
       });
     }
@@ -119,7 +115,7 @@ async function createDailyPerformanceSummary(req, res) {
       return res.status(400).json({
         status: "error",
         message: "Daily performance summary target not found",
-        isSuccess: false,
+        success: false,
         data: null,
       });
     }
@@ -146,19 +142,17 @@ async function createDailyPerformanceSummary(req, res) {
           attributes: ['id', 'dailyTargetValue']
         }
       ]
-    });
-
-    res.status(201).json({
+    });    res.status(201).json({
       status: "success",
       message: "Daily performance summary created successfully",
-      isSuccess: true,
+      success: true,
       data: createdSummary,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
       message: error.message,
-      isSuccess: false,
+      success: false,
       data: null,
     });
   }
@@ -168,15 +162,13 @@ async function createDailyPerformanceSummary(req, res) {
 async function updateDailyPerformanceSummary(req, res) {
   try {
     const { id } = req.params;
-    const { dailyPerformanceSummaryMetricId, dailyPerformanceSummaryTargetId, actual, achivement, status } = req.body;
-
-    // Check if summary exists
+    const { dailyPerformanceSummaryMetricId, dailyPerformanceSummaryTargetId, actual, achivement, status } = req.body;    // Check if summary exists
     const existingSummary = await Daily_performance_summary.findByPk(id);
     if (!existingSummary) {
       return res.status(404).json({
         status: "error",
         message: "Daily performance summary not found",
-        isSuccess: false,
+        success: false,
         data: null,
       });
     }
@@ -188,7 +180,7 @@ async function updateDailyPerformanceSummary(req, res) {
         return res.status(400).json({
           status: "error",
           message: "Daily performance summary metric not found",
-          isSuccess: false,
+          success: false,
           data: null,
         });
       }
@@ -200,7 +192,7 @@ async function updateDailyPerformanceSummary(req, res) {
         return res.status(400).json({
           status: "error",
           message: "Daily performance summary target not found",
-          isSuccess: false,
+          success: false,
           data: null,
         });
       }
@@ -228,19 +220,17 @@ async function updateDailyPerformanceSummary(req, res) {
           attributes: ['id', 'dailyTargetValue']
         }
       ]
-    });
-
-    res.status(200).json({
+    });    res.status(200).json({
       status: "success",
       message: "Daily performance summary updated successfully",
-      isSuccess: true,
+      success: true,
       data: updatedSummary,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
       message: error.message,
-      isSuccess: false,
+      success: false,
       data: null,
     });
   }
@@ -249,14 +239,12 @@ async function updateDailyPerformanceSummary(req, res) {
 // Delete daily performance summary
 async function deleteDailyPerformanceSummary(req, res) {
   try {
-    const { id } = req.params;
-
-    const existingSummary = await Daily_performance_summary.findByPk(id);
+    const { id } = req.params;    const existingSummary = await Daily_performance_summary.findByPk(id);
     if (!existingSummary) {
       return res.status(404).json({
         status: "error",
         message: "Daily performance summary not found",
-        isSuccess: false,
+        success: false,
         data: null,
       });
     }
@@ -266,14 +254,14 @@ async function deleteDailyPerformanceSummary(req, res) {
     res.status(200).json({
       status: "success",
       message: "Daily performance summary deleted successfully",
-      isSuccess: true,
+      success: true,
       data: null,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
       message: error.message,
-      isSuccess: false,
+      success: false,
       data: null,
     });
   }
@@ -285,4 +273,107 @@ module.exports = {
   createDailyPerformanceSummary,
   updateDailyPerformanceSummary,
   deleteDailyPerformanceSummary,
+  getDailyPerformanceSummaryByDate,
+  getAvailableDates,
 };
+
+// Get daily performance summary by date
+async function getDailyPerformanceSummaryByDate(req, res) {
+  try {
+    const { date } = req.query;
+
+    if (!date) {
+      return res.status(400).json({
+        success: false,
+        message: "Date parameter is required",
+      });
+    }
+
+    // Parse the date and create start/end of day
+    const startDate = new Date(date);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date(date);
+    endDate.setHours(23, 59, 59, 999);
+
+    const performanceSummaryData = await Daily_performance_summary.findAll({
+      include: [
+        {
+          model: Daily_performance_summary_metric,
+          as: 'metric',
+          attributes: ['id', 'metricName']
+        },
+        {
+          model: Daily_performance_summary_target,
+          as: 'target',
+          attributes: ['id', 'dailyTargetValue']
+        }
+      ],
+      where: {
+        createdAt: {
+          [Op.between]: [startDate, endDate],
+        },
+      },
+      order: [["createdAt", "DESC"]],
+    });
+
+    // Transform the data to match frontend expectations
+    const transformedData = performanceSummaryData.map((item) => ({
+      id: item.id,
+      dailyPerformanceSummaryMetricId: item.dailyPerformanceSummaryMetricId,
+      dailyPerformanceSummaryTargetId: item.dailyPerformanceSummaryTargetId,
+      actual: parseFloat(item.actual) || 0,
+      achivement: parseFloat(item.achivement) || 0,
+      status: item.status || "",
+      date: item.createdAt.toISOString().split("T")[0],
+      createdAt: item.createdAt,
+      metric: {
+        id: item.metric ? item.metric.id : null,
+        metricName: item.metric ? item.metric.metricName : "Unknown",
+      },
+      target: {
+        id: item.target ? item.target.id : null,
+        dailyTargetValue: item.target ? parseFloat(item.target.dailyTargetValue) : 0,
+      },
+    }));
+
+    res.status(200).json({
+      success: true,
+      message: "Daily performance summary data retrieved successfully",
+      data: transformedData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+}
+
+// Get available dates
+async function getAvailableDates(req, res) {
+  try {
+    const dates = await Daily_performance_summary.findAll({
+      attributes: [
+        [Daily_performance_summary.sequelize.fn("DATE", Daily_performance_summary.sequelize.col("createdAt")), "date"],
+      ],
+      group: [Daily_performance_summary.sequelize.fn("DATE", Daily_performance_summary.sequelize.col("createdAt"))],
+      order: [[Daily_performance_summary.sequelize.fn("DATE", Daily_performance_summary.sequelize.col("createdAt")), "DESC"]],
+    });
+
+    const dateList = dates.map((item) => item.dataValues.date);
+
+    res.status(200).json({
+      success: true,
+      message: "Available dates retrieved successfully",
+      data: dateList,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+}
