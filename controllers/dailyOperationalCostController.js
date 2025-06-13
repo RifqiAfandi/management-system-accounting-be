@@ -1,5 +1,6 @@
 const { Daily_operational_cost } = require("../models");
-const {Operational_cost_type} = require("../models");
+const { Operational_cost_type } = require("../models");
+const { Op } = require("sequelize");
 
 async function createDailyOperationalCost(req, res) {
   try {
@@ -200,7 +201,8 @@ async function getAllDailyOperationalCost(req, res) {
 
     if (operationalCostTypeId) {
       whereClause.operationalCostTypeId = operationalCostTypeId;
-    }    if (startDate && endDate) {
+    }
+    if (startDate && endDate) {
       whereClause.createdAt = {
         [Op.between]: [new Date(startDate), new Date(endDate)],
       };
@@ -221,7 +223,8 @@ async function getAllDailyOperationalCost(req, res) {
           model: Operational_cost_type,
           as: "operationalCostType",
         },
-      ],      limit: parseInt(limit),
+      ],
+      limit: parseInt(limit),
       offset: parseInt(offset),
       order: [["createdAt", "DESC"]],
     });
@@ -250,9 +253,95 @@ async function getAllDailyOperationalCost(req, res) {
   }
 }
 
+async function getDailyOperationalCostByDate(req, res) {
+  try {
+    const { date } = req.query;
+
+    if (!date) {
+      return res.status(400).json({
+        success: false,
+        message: "Date parameter is required",
+      });
+    }
+
+    // Parse the date and create start/end of day
+    const startDate = new Date(date);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date(date);
+    endDate.setHours(23, 59, 59, 999);
+
+    const operationalCostData = await Daily_operational_cost.findAll({
+      include: [
+        {
+          model: Operational_cost_type,
+          as: "operationalCostType",
+          attributes: ["id", "operationalCostName"],
+        },
+      ],
+      where: {
+        createdAt: {
+          [Op.between]: [startDate, endDate],
+        },
+      },
+      order: [["createdAt", "DESC"]],
+    });
+
+    // Transform the data to match frontend expectations
+    const transformedData = operationalCostData.map((item) => ({
+      id: item.id,
+      operationalCostTypeId: item.operationalCostTypeId,
+      amount: parseFloat(item.amount) || 0,
+      description: item.description || "",
+      date: item.createdAt.toISOString().split("T")[0],
+      createdAt: item.createdAt,
+      OperationalCostType: {
+        name: item.operationalCostType ? item.operationalCostType.operationalCostName : "Unknown",
+        description: item.description || "",
+      },
+    }));    res.status(200).json({
+      success: true,
+      message: "Daily operational cost data retrieved successfully",
+      data: transformedData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+}
+
+async function getAvailableDates(req, res) {
+  try {
+    const dates = await Daily_operational_cost.findAll({
+      attributes: [
+        [Daily_operational_cost.sequelize.fn("DATE", Daily_operational_cost.sequelize.col("createdAt")), "date"],
+      ],
+      group: [Daily_operational_cost.sequelize.fn("DATE", Daily_operational_cost.sequelize.col("createdAt"))],
+      order: [[Daily_operational_cost.sequelize.fn("DATE", Daily_operational_cost.sequelize.col("createdAt")), "DESC"]],
+    });
+
+    const dateList = dates.map((item) => item.dataValues.date);    res.status(200).json({
+      success: true,
+      message: "Available dates retrieved successfully",
+      data: dateList,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
-    createDailyOperationalCost,
-    updateDailyOperationalCost,
-    deleteDailyOperationalCost,
-    getAllDailyOperationalCost,
+  createDailyOperationalCost,
+  updateDailyOperationalCost,
+  deleteDailyOperationalCost,
+  getAllDailyOperationalCost,
+  getDailyOperationalCostByDate,
+  getAvailableDates,
 };

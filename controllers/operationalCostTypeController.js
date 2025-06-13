@@ -2,28 +2,29 @@ const { Operational_cost_type } = require("../models");
 
 async function getAllOperationalCostTypes(req, res) {
   try {
-    const operationalCostTypes = await Operational_cost_type.findAll();
-    if (operationalCostTypes.length === 0) {
-      return res.status(404).json({
-        status: "error",
-        message: "No operational cost types found",
-        isSuccess: false,
-        data: null,
-      });
-    }
-
+    const operationalCostTypes = await Operational_cost_type.findAll({
+      order: [['operationalCostName', 'ASC']]
+    });
+    
+    // Transform data to match frontend expectations
+    const transformedData = operationalCostTypes.map(type => ({
+      id: type.id,
+      name: type.operationalCostName,
+      description: type.operationalCostName, // Using name as description since there's no description field
+      createdAt: type.createdAt,
+      updatedAt: type.updatedAt
+    }));
+    
     res.status(200).json({
-      status: "success",
+      success: true,
       message: "Operational cost types retrieved successfully",
-      isSuccess: true,
-      data: operationalCostTypes,
+      data: transformedData,
     });
   } catch (error) {
     res.status(500).json({
-      status: "error",
-      message: error.message,
-      isSuccess: false,
-      data: null,
+      success: false,
+      message: 'Internal server error',
+      error: error.message
     });
   }
 }
