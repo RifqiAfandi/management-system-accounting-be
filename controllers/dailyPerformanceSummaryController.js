@@ -31,12 +31,11 @@ async function getAllDailyPerformanceSummaries(req, res) {
       message: "Daily performance summaries retrieved successfully",
       success: true,
       data: dailyPerformanceSummaries,
-    });
-  } catch (error) {
+    });  } catch (error) {
     res.status(500).json({
       status: "error",
       message: error.message,
-      isSuccess: false,
+      success: false,
       data: null,
     });
   }
