@@ -1,5 +1,6 @@
 const { Payment_method_breakdown } = require("../models");
 const { Payment_type } = require("../models");
+const { Op } = require("sequelize");
 
 async function createPaymentMethodBreakdown(req, res) {
   try {
@@ -269,9 +270,94 @@ async function getAllPaymentMethodBreakdowns(req, res) {
   }
 }
 
+async function getPaymentMethodBreakdownByDate(req, res) {
+  try {
+    console.log('getPaymentMethodBreakdownByDate called'); // Debug log
+    console.log('Query params:', req.query); // Debug log
+    console.log('User from token:', req.user); // Debug log
+    
+    const { date } = req.query;
+
+    if (!date) {
+      return res.status(400).json({
+        success: false,
+        message: 'Date parameter is required'
+      });
+    }
+
+    // Parse the date and create start/end of day
+    const startDate = new Date(date);
+    startDate.setHours(0, 0, 0, 0);
+    
+    const endDate = new Date(date);
+    endDate.setHours(23, 59, 59, 999);
+
+    console.log('Date range:', { startDate, endDate }); // Debug log
+
+    const paymentData = await Payment_method_breakdown.findAll({
+      include: [
+        {
+          model: Payment_type,
+          as: 'paymentType',
+          attributes: ['id', 'paymentName']
+        }
+      ],
+      where: {
+        createdAt: {
+          [Op.between]: [startDate, endDate]
+        }
+      },
+      order: [['createdAt', 'DESC']]
+    });
+
+    console.log('Found data:', paymentData.length, 'records'); // Debug log
+
+    res.status(200).json({
+      success: true,
+      message: 'Payment method breakdown data retrieved successfully',
+      data: paymentData
+    });
+  } catch (error) {
+    console.error('Error in getPaymentMethodBreakdownByDate:', error); // Debug log
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+}
+
+async function getAvailableDates(req, res) {
+  try {
+    const dates = await Payment_method_breakdown.findAll({
+      attributes: [
+        [Payment_method_breakdown.sequelize.fn('DATE', Payment_method_breakdown.sequelize.col('createdAt')), 'date']
+      ],
+      group: [Payment_method_breakdown.sequelize.fn('DATE', Payment_method_breakdown.sequelize.col('createdAt'))],
+      order: [[Payment_method_breakdown.sequelize.fn('DATE', Payment_method_breakdown.sequelize.col('createdAt')), 'DESC']]
+    });
+
+    const dateList = dates.map(item => item.dataValues.date);
+
+    res.status(200).json({
+      success: true,
+      message: 'Available dates retrieved successfully',
+      data: dateList
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+}
+
 module.exports = {
   getAllPaymentMethodBreakdowns,
   createPaymentMethodBreakdown,
   updatePaymentMethodBreakdown,
   deletePaymentMethodBreakdown,
+  getPaymentMethodBreakdownByDate,
+  getAvailableDates
 };
