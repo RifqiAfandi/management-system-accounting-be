@@ -3,7 +3,7 @@ const { Operational_cost_type } = require("../models");
 async function getAllOperationalCostTypes(req, res) {
   try {
     const operationalCostTypes = await Operational_cost_type.findAll({
-      order: [['operationalCostName', 'ASC']]
+      order: [['id', 'ASC']]
     });
     
     // Transform data to match frontend expectations
