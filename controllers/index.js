@@ -6,8 +6,6 @@ const salesCategoryController = require("./salesCategoryController");
 const operationalCategoryController = require("./operationalCategoryController");
 const paymentMethodController = require("./paymentMethodController");
 const trafficAndCustomerController = require("./trafficAndCustomerController");
-const dailyPerformanceSummaryMetricController = require("./dailyPerformanceSummaryMetricController");
-const dailyPerformanceSummaryTargetController = require("./dailyPerformanceSummaryTargetController");
 
 module.exports = {
   authController,
@@ -18,6 +16,4 @@ module.exports = {
   operationalCategoryController,
   paymentMethodController,
   trafficAndCustomerController,
-  dailyPerformanceSummaryMetricController,
-  dailyPerformanceSummaryTargetController,
 };
