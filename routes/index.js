@@ -14,6 +14,10 @@ const salesByCategoryRoutes = require('./salesByCategoryRoute');
 const salesCategoryRoutes = require('./salesCategoryRoute');
 const trafficAndCustomerRoutes = require('./trafficAndCustomerRoute');
 
+// Import balance sheet routes
+const balanceSheetRoutes = require('./balanceSheetRoute');
+const chartOfAccountsRoutes = require('./chartOfAccountsRoute');
+
 // Use auth routes
 router.use('/auth', authRoutes);
 router.use('/daily-operational-cost', dailyOperationalCostRoutes);
@@ -26,5 +30,9 @@ router.use('/payment-type', paymentTypeRoutes);
 router.use('/sales-by-category', salesByCategoryRoutes);
 router.use('/sales-category', salesCategoryRoutes);
 router.use('/traffic-and-customer', trafficAndCustomerRoutes);
+
+// Use balance sheet routes
+router.use('/accounting', balanceSheetRoutes);
+router.use('/chart-of-accounts', chartOfAccountsRoutes);
 
 module.exports = router;
